@@ -1,25 +1,155 @@
 #define _USE_MATH_DEFINES
 
+#define _WIN32_WINNT 0x0500 //RIGHT
+#include <windows.h>
+
+#include <iostream>
+#include "myo/myo.hpp"
+#include "vk.h"
+
+using namespace std;
+
+void setUp(INPUT *ip)
+{
+    // Set up a generic keyboard event.
+    ip->type = INPUT_KEYBOARD;
+    ip->ki.wScan = 0; // hardware scan code for key
+    ip->ki.time = 0;
+    ip->ki.dwExtraInfo = 0;
+}
+bool pressKey(int keyCode, string message="") // press and release
+{
+    INPUT ip;
+    setUp(&ip);
+
+    // press the key
+    ip.ki.wVk = keyCode;
+    ip.ki.dwFlags = 0;
+    SendInput(1, &ip, sizeof(INPUT));
+
+    // Release the key
+    ip.ki.dwFlags = KEYEVENTF_KEYUP; // KEYEVENTF_KEYUP for key release
+    SendInput(1, &ip, sizeof(INPUT));
+
+    cout << message << endl;
+    Sleep(300);
+
+    return true;
+}
+
+bool press2Key(int keyCode1, int keyCode2, string message="")
+{
+    INPUT ip1;
+    INPUT ip2;
+
+    setUp(&ip1);
+    setUp(&ip2);
+
+    // press the key
+    ip1.ki.wVk = keyCode1;
+    ip1.ki.dwFlags = 0;
+    SendInput(1, &ip1, sizeof(INPUT));
+
+    // press the key
+    ip2.ki.wVk = keyCode2;
+    ip2.ki.dwFlags = 0;
+    SendInput(1, &ip2, sizeof(INPUT));
+
+    // Release the key
+    ip1.ki.dwFlags = KEYEVENTF_KEYUP; // KEYEVENTF_KEYUP for key release
+    SendInput(1, &ip1, sizeof(INPUT));
+
+    // Release the key
+    ip2.ki.dwFlags = KEYEVENTF_KEYUP; // KEYEVENTF_KEYUP for key release
+    SendInput(1, &ip2, sizeof(INPUT));
+
+    cout << message << endl;
+    Sleep(300);
+
+    return true;
+}
+
+bool mouseClick(bool left, bool release, string message="")
+{
+    INPUT ip;
+    setUp(&ip);
+
+    // press the key
+    if (left)
+    {
+        ip.ki.wVk = VK_LBUTTON;
+    } else {
+        ip.ki.wVk = VK_RBUTTON;
+    }
+    ip.ki.dwFlags = 0;
+    SendInput(1, &ip, sizeof(INPUT));
+
+    // release
+    if (release)
+    {
+        ip.ki.dwFlags = KEYEVENTF_KEYUP;
+        return true;
+    } else {
+        return false;
+    }
+    cout << message << endl;
+    Sleep(300);
+}
+
+bool mouseRelease(INPUT *ip, string message="")
+{
+    // null pointer, no such input
+    if (!ip)
+    {
+        return false;
+    } else {
+        ip->ki.dwFlags = KEYEVENTF_KEYUP;
+        return true;
+    }
+    cout << message << endl;
+    Sleep(300);
+}
+
+// place cursor to location x, y
+bool placeCursor(int x, int y)
+{
+    SetCursorPos(x, y);
+    cout << "Cursor placed: (" << x << ", " << y << ")" << endl;
+    Sleep(200);
+    return 1;
+}
+
+#include "myo/myo.hpp"
+
 #include <cmath>
 #include <iostream>
 #include <iomanip>
 #include <stdexcept>
 #include <string>
 #include <algorithm>
-
-#include <windows.h>
-
-#include "myo/myo.hpp"
-
+#include <vector>
 
 // Classes that inherit from myo::DeviceListener can be used to receive events from Myo devices. DeviceListener
 // provides several virtual functions for handling different kinds of events. If you do not override an event, the
 // default behavior is to do nothing.
 class DataCollector : public myo::DeviceListener {
+private:
+    int i, j, k;
+    std::vector<myo::Pose> tab;
+    std::vector<myo::Pose> copy;
+    std::vector<myo::Pose> paste;
+
 public:
     DataCollector()
     : onArm(false), roll_w(0), pitch_w(0), yaw_w(0), currentPose()
     {
+        tab.push_back(myo::Pose::fingersSpread);
+        tab.push_back(myo::Pose::waveOut);
+        copy.push_back(myo::Pose::fingersSpread);
+        copy.push_back(myo::Pose::waveIn);
+        paste.push_back(myo::Pose::fist);
+        paste.push_back(myo::Pose::fingersSpread);
+        i=j=k=0;
     }
 
     // onUnpair() is called whenever the Myo is disconnected from Myo Connect by the user.
@@ -61,10 +191,44 @@ public:
     void onPose(myo::Myo* myo, uint64_t timestamp, myo::Pose pose)
     {
         currentPose = pose;
-
-        // Vibrate the Myo whenever we've detected that the user has made a fist.
-        if (pose == myo::Pose::fist) {
-            myo->vibrate(myo::Myo::vibrationMedium);
+        //print();
+        std::cout << std::endl;
+        std::cout << i << " " << j << " " << k << std::endl;
+        if (pose == tab[i]) {
+            //std::cout << "switch";
+            i++;
+            if (i == 2) {
+                myo->vibrate(myo::Myo::vibrationShort);
+                std::cout << "switch" << std::endl;
+                press2Key(VK_MENU, VK_TAB);
+                i = 0;
+            }
+        } else if (pose != myo::Pose::rest){
+            i = 0;
+        }
+        if (pose == copy[j]) {
+            //std::cout << "copy";
+            j++;
+            if (j == 2) {
+                myo->vibrate(myo::Myo::vibrationShort);
+                std::cout << "copy" << std::endl;
+                press2Key(VK_CONTROL, VK_C);
+                j = 0;
+            }
+        } else if (pose != myo::Pose::rest){
+            j = 0;
+        }
+        if (pose == paste[k]) {
+        //std::cout << "paste";
+            k++;
+            if (k == 2) {
+                myo->vibrate(myo::Myo::vibrationShort);
+                std::cout << "pasted" << std::endl;
+                press2Key(VK_CONTROL, VK_V);
+                k = 0;
+            }
+        } else if (pose != myo::Pose::rest){
+            k = 0;
         }
     }
 
@@ -126,26 +290,11 @@ public:
     myo::Pose currentPose;
 };
 
+
 int main(int argc, char** argv)
 {
     // We catch any exceptions that might occur below -- see the catch statement for more details.
     try {
-
-    // This structure will be used to create the keyboard input invent
-    INPUT keyIn;
-
-    // setup a generic key board event
-    keyIn.type = INPUT_KEYBOARD;
-    // Set up a generic keyboard event.
-    keyIn.type = INPUT_KEYBOARD;
-    keyIn.ki.wScan = 0; // hardware scan code for key
-    keyIn.ki.time = 0;
-    keyIn.ki.dwExtraInfo = 0;
-
-    // Press the "A" key
-    keyIn.ki.wVk = 'V'; // virtual-key code for the "a" key
-    keyIn.ki.dwFlags = 0; // 0 for key press
-    SendInput(1, &keyIn, sizeof(INPUT));
 
     // First, we create a Hub with our application identifier. Be sure not to use the com.example namespace when
     // publishing your application. The Hub provides access to one or more Myos.
@@ -168,7 +317,7 @@ int main(int argc, char** argv)
     std::cout << "Connected to a Myo armband!" << std::endl << std::endl;
 
     // Next we construct an instance of our DeviceListener, so that we can register it with the Hub.
-    DataCollector collector;
+    DataCollector collector = DataCollector();
 
     // Hub::addListener() takes the address of any object whose class inherits from DeviceListener, and will cause
     // Hub::run() to send events to all registered device listeners.
