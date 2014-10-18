@@ -7,6 +7,7 @@
 #include <stdexcept>
 #include <string>
 #include <algorithm>
+#include <vector>
 
 // The only file that needs to be included to use the Myo C++ SDK is myo.hpp.
 #include <myo/myo.hpp>
@@ -15,19 +16,20 @@
 // provides several virtual functions for handling different kinds of events. If you do not override an event, the
 // default behavior is to do nothing.
 class DataCollector : public myo::DeviceListener {
-//private: 
-	myo::Pose switcArr[2], copyArr[3], pasteArr[3];
+private:
+	std::vector<myo::Pose> switchArr;
+	std::vector<myo::Pose> copyArr;
+	std::vector<myo::Pose> pasteArr;
 	int i, j, k;
 public:
-    DataCollector()
-    : onArm(false), roll_w(0), pitch_w(0), yaw_w(0), currentPose()
-    {
-		//myo::Pose switchArr[] = { myo::Pose::fist, myo::Pose::waveOut };
-		//myo::Pose copyArr[] = { myo::Pose::fingersSpread, myo::Pose::fist, myo::Pose::rest };
-		//myo::Pose pasteArr[] = { myo::Pose::fist, myo::Pose::fingersSpread, myo::Pose::rest };
-		//int i = j = k = 0;
+	DataCollector()
+		: onArm(false), roll_w(0), pitch_w(0), yaw_w(0), currentPose()
+	{
+		switchArr.push_back( myo::Pose::fist);
+		switchArr.push_back(myo::Pose::waveOut);
+		i = j = k = 0;
 
-    }
+	}
 
     // onUnpair() is called whenever the Myo is disconnected from Myo Connect by the user.
     void onUnpair(myo::Myo* myo, uint64_t timestamp)
@@ -67,19 +69,21 @@ public:
     // making a fist, or not making a fist anymore.
     void onPose(myo::Myo* myo, uint64_t timestamp, myo::Pose pose)
     {
-        /*currentPose = pose;
-		if (pose == switcArr[i]) {
-			//std::cout << "switch";
-			i++;
+        currentPose = pose;
+
+		if (pose == switchArr[i]) {
+			std::cout << "\nswitch\n";
 			if (i == 1) {
 				myo->vibrate(myo::Myo::vibrationShort);
+				std::cout << "\nyeah\n";
 				i = 0;
 			}
-		} 
-		else {
+			i++;
+		}
+		else if (pose != myo::Pose::rest) {
 			i = 0;
 		}
-		if (pose == copyArr[j]) {   
+		/*if (pose == copyArr[j]) {
 			//std::cout << "copy";
 			j++;
 			if (j == 2) {
@@ -87,7 +91,7 @@ public:
 				j = 0;
 			}
 
-		} 
+		}
 		else {
 			j = 0;
 		}
