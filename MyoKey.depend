@@ -1,0 +1,74 @@
+# depslib dependency file v1.0
+1413623234 source:c:\users\kaiyu\documents\codeblocks\myokey\main.cpp
+	<cmath>
+	<iostream>
+	<iomanip>
+	<stdexcept>
+	<string>
+	<algorithm>
+	"myo/myo.hpp"
+
+1413596571 c:\users\kaiyu\documents\codeblocks\myokey\myo\myo.hpp
+	"cxx/DeviceListener.hpp"
+	"cxx/Hub.hpp"
+	"cxx/Myo.hpp"
+	"cxx/Pose.hpp"
+	"cxx/Quaternion.hpp"
+	"cxx/Vector3.hpp"
+
+1413596571 c:\users\kaiyu\documents\codeblocks\myokey\myo\cxx\devicelistener.hpp
+	<stdint.h>
+	"Pose.hpp"
+
+1413623286 c:\users\kaiyu\documents\codeblocks\myokey\myo\cxx\pose.hpp
+	<iosfwd>
+	<string>
+	"../libmyo.h"
+	"impl/Pose_impl.hpp"
+
+1413596571 c:\users\kaiyu\documents\codeblocks\myokey\myo\libmyo.h
+	<stdint.h>
+	"libmyo/detail/visibility.h"
+
+1413596571 c:\users\kaiyu\documents\codeblocks\myokey\myo\libmyo\detail\visibility.h
+
+1413596571 c:\users\kaiyu\documents\codeblocks\myokey\myo\cxx\impl\pose_impl.hpp
+	"../Pose.hpp"
+	<iostream>
+
+1413623302 c:\users\kaiyu\documents\codeblocks\myokey\myo\cxx\hub.hpp
+	<vector>
+	"../libmyo.h"
+	"impl/Hub_impl.hpp"
+
+1413596571 c:\users\kaiyu\documents\codeblocks\myokey\myo\cxx\impl\hub_impl.hpp
+	"../Hub.hpp"
+	<algorithm>
+	<exception>
+	"../DeviceListener.hpp"
+	"../Myo.hpp"
+	"../Pose.hpp"
+	"../Quaternion.hpp"
+	"../Vector3.hpp"
+	"../detail/ThrowOnError.hpp"
+
+1413623322 c:\users\kaiyu\documents\codeblocks\myokey\myo\cxx\myo.hpp
+	"../libmyo.h"
+	"impl/Myo_impl.hpp"
+
+1413596571 c:\users\kaiyu\documents\codeblocks\myokey\myo\cxx\impl\myo_impl.hpp
+	"../Myo.hpp"
+	"../detail/ThrowOnError.hpp"
+	<stdexcept>
+
+1413623385 c:\users\kaiyu\documents\codeblocks\myokey\myo\cxx\detail\throwonerror.hpp
+	<stdexcept>
+	"../../libmyo.h"
+
+1413596571 c:\users\kaiyu\documents\codeblocks\myokey\myo\cxx\quaternion.hpp
+	<cmath>
+	"Vector3.hpp"
+
+1413596571 c:\users\kaiyu\documents\codeblocks\myokey\myo\cxx\vector3.hpp
+	<cmath>
+
