@@ -1,18 +1,12 @@
-﻿Build started 2014/10/18 13:41:27.
-     1>Project "C:\Users\hot_winter\Desktop\myo\samples\hello-myo-VisualStudio2012.vcxproj" on node 2 (Build target(s)).
+﻿Build started 2014/10/18 13:54:27.
+     1>Project "D:\workspace\MyoKey\samples\hello-myo-VisualStudio2012.vcxproj" on node 2 (Build target(s)).
+     1>C:\Program Files (x86)\MSBuild\Microsoft.Cpp\v4.0\V120\Microsoft.CppBuild.targets(381,5): warning MSB8028: The intermediate directory (x64\Debug\) contains files shared from another project (hello-myo-VisualStudio2013.vcxproj).  This can lead to incorrect clean and rebuild behavior.
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\CL.exe /c /I..\include /Zi /nologo /W3 /WX- /Od /D WIN32 /D _DEBUG /D _CONSOLE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"x64\Debug\\" /Fd"x64\Debug\vc120.pdb" /Gd /TP /errorReport:prompt "hello-myo.cpp"
          hello-myo.cpp
-       Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\x86_amd64\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\hot_winter\Desktop\myo\samples\x64\Debug\hello-myo.exe" /INCREMENTAL /NOLOGO /LIBPATH:..\lib myo64.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\hot_winter\Desktop\myo\samples\x64\Debug\hello-myo.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\hot_winter\Desktop\myo\samples\x64\Debug\hello-myo.lib" /MACHINE:X64 "x64\Debug\hello-myo.obj"
-         hello-myo-VisualStudio2012.vcxproj -> C:\Users\hot_winter\Desktop\myo\samples\x64\Debug\hello-myo.exe
-       PostBuildEvent:
-         COPY "..\bin\myo64.dll" "C:\Users\hot_winter\Desktop\myo\samples\x64\Debug\"
-               
-         :VCEnd
-         已复制         1 个文件。
-     1>Done Building Project "C:\Users\hot_winter\Desktop\myo\samples\hello-myo-VisualStudio2012.vcxproj" (Build target(s)).
+     1>hello-myo.cpp(12): fatal error C1083: Cannot open include file: 'myo/myo.hpp': No such file or directory
+     1>Done Building Project "D:\workspace\MyoKey\samples\hello-myo-VisualStudio2012.vcxproj" (Build target(s)) -- FAILED.
 
-Build succeeded.
+Build FAILED.
 
-Time Elapsed 00:00:01.58
+Time Elapsed 00:00:00.63

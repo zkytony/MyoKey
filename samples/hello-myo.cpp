@@ -67,7 +67,7 @@ public:
     // making a fist, or not making a fist anymore.
     void onPose(myo::Myo* myo, uint64_t timestamp, myo::Pose pose)
     {
-        currentPose = pose;
+        /*currentPose = pose;
 		if (pose == switcArr[i]) {
 			//std::cout << "switch";
 			i++;
@@ -100,7 +100,7 @@ public:
 		}
 		else {
 			k = 0;
-		}
+		}*/
     }
 
     // onArmRecognized() is called whenever Myo has recognized a Sync Gesture after someone has put it on their
