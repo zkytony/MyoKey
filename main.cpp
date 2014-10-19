@@ -5,6 +5,14 @@
 
 #include <iostream>
 #include "myo/myo.hpp"
+
+#include <cmath>
+#include <iostream>
+#include <iomanip>
+#include <stdexcept>
+#include <string>
+#include <algorithm>
+#include <vector>
 #include "vk.h"
 
 using namespace std;
@@ -119,19 +127,7 @@ bool placeCursor(int x, int y)
     return 1;
 }
 
-#include "myo/myo.hpp"
-
-#include <cmath>
-#include <iostream>
-#include <iomanip>
-#include <stdexcept>
-#include <string>
-#include <algorithm>
-#include <vector>
-
-// Classes that inherit from myo::DeviceListener can be used to receive events from Myo devices. DeviceListener
-// provides several virtual functions for handling different kinds of events. If you do not override an event, the
-// default behavior is to do nothing.
+// Classes that inherit from myo::DeviceListener
 class DataCollector : public myo::DeviceListener {
 private:
     int i, j, k;
